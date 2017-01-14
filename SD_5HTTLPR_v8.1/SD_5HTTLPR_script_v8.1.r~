@@ -44,12 +44,12 @@
 #
 #        NOTE: There must be a terminal '/'
 
-         INDIR="//Users/LucyGedara/Desktop/SD_5HTTLPR_v8.1.1/"
+         INDIR="C:/Project/SD_5HTTLPR_v8.1/"
 
 
 #  1.2.  Enter study name (LABEL will appear in meta-analysis files).
 
-         LABEL = "ALSPAC"
+         LABEL = "TEST"
 
 
 #  1.3.  Choose ancestral POPULATION of dataset using the following codes:
@@ -67,7 +67,8 @@
 #
 #        NOTE: This must be a CSV (comma delimited) file.
 
-         INDATA="UpdateLE_MA2.csv"
+         INDATA="TEST_DATA.csv"  
+
 
 
 #####################################################
@@ -97,7 +98,7 @@
 # 2.1.  Are your data from a LONGITUDINAL study?
 #       Choose from: NO/YES
 
-        longitudinal_data = "YES"  
+        longitudinal_data = "NO"  
 
 
 ##################################
@@ -121,7 +122,7 @@
 #
 #       Please use "DSM4_SYMPTOM_COUNT" if available.
 
-        dep_q_system = "ICD10_SYMPTOM_COUNT"   
+        dep_q_system = "DSM4_SYMPTOM_COUNT"   
 
 
 # 2.4.  Are the QUANTITATIVE DEPRESSION data based on an IN-PERSON INTERVIEW?
@@ -133,7 +134,7 @@
 # 2.5.  If CURRENT QUANTITATIVE DEPRESSION was assessed, what period was queried?
 #       Choose from: NOT_AVAILABLE/LAST_6MONTHS/LAST_YEAR/OTHER(specify)
 
-        dep_q_query_span = "LAST_6MONTHS"  
+        dep_q_query_span = "NOT_AVAILABLE"  
 
 
 #######################################
@@ -145,7 +146,7 @@
 #
 #       Please provide diagnosis based on DSM4, if possible.
 
-        dep_dx_system = "ICD10"   
+        dep_dx_system = "DSM4"   
 
 
 # 2.7.  Is the DEPRESSION DIAGNOSIS based on an IN-PERSON INTERVIEW?
@@ -158,7 +159,7 @@
 #       CURRENT DEPRESSION DIAGNOSIS?
 #       Choose from: NOT_AVAILABLE/LAST_6MONTHS/LAST_YEAR/OTHER(specify)
 
-        dep_dx_query_span= "LAST_6MONTHS"  
+        dep_dx_query_span= "NOT_AVAILABLE"  
 
 
 ##############################
@@ -170,14 +171,14 @@
 # 2.9.  Source of the CHILDHOOD MALTREATMENT information for the subject?
 #       Choose from: SELF/PARENT/OTHER(specify)/NOT_AVAILABLE
 
-        reporting_childhood_mal = "PARENT"
+        reporting_childhood_mal = "SELF"
 
 
 # 2.10. Source of information on LIFE STRESS (stress other than
 #       CHILDHOOD MALTREATMENT)?
 #       Choose from: SELF/PARENT/OTHER(specify)/NOT_AVAILABLE
 
-        reporting_life_stress = "PARENT"
+        reporting_life_stress = "SELF"
 
 
 # 2.11. What time period was covered in the LIFE STRESS (non-childhood
@@ -185,7 +186,7 @@
 #       Choose from: LAST_WEEK/LAST_MONTH/LAST_6MONTHS/LAST_YEAR/
 #                    LAST_5YEARS/LIFETIME/OTHER(specify)/NOT_AVAILABLE
 
-        life_stress_time_period = "OTHER(LAST_16YEARS)"
+        life_stress_time_period = "LAST_6MONTHS"
 
 #####################################
 ## Quantitative measures of stress ##
@@ -197,7 +198,7 @@
 #       Please use CTQ, if possible.
 #       If TRAUMA_COUNT, please send list of questions used.
 
-        child_mal_q_system = "NOT_AVAILABLE"
+        child_mal_q_system = "CTQ"
 
 
 # 2.13. System for evaluating QUANTITATIVE LIFE STRESS (non-childhood maltreatment): 
@@ -206,14 +207,14 @@
 #       Please use LTE_Q, if possible.
 #       If TRAUMA_COUNT, please send list of questions used.
 
-        life_stress_q_system = "OTHER(MODIFIED_LEQ)"
+        life_stress_q_system = "LTE_Q"
 
 
 # 2.14. Are the QUANTITATIVE LIFE STRESS (non-childhood maltreatment) data based
 #       on an IN-PERSON INTERVIEW? 
 #       Choose from: IN_PERSON/TELEPHONE/MAIL_QUESTIONNAIRE/OTHER(specify) 
 
-        interview_stress_q = "MAIL_QUESTIONNAIRE"
+        interview_stress_q = "IN_PERSON"
 
 ####################################
 ## Dichotomous measures of stress ##
@@ -224,7 +225,7 @@
 #
 #       Please use CTQ, if possible.
 
-        child_mal_exp_system = "OTHER(MODIFIED_LEQ)"
+        child_mal_exp_system = "CTQ"
 
 
 # 2.16. System for evaluating stress EXPOSURE other than childhood maltreatment
@@ -232,13 +233,13 @@
 #
 #       Please use LTE_Q, if possible.
 
-        life_stress_exp_system = "OTHER(MODIFIED_LEQ)"
+        life_stress_exp_system = "LTE_Q"
 
 
 # 2.17. Are the LIFE STRESS EXPOSURE data based on an IN-PERSON INTERVIEW?
 #       Choose from: IN_PERSON/TELEPHONE/MAIL_QUESTIONNAIRE/OTHER(specify)
 
-        interview_stress_exp = "MAIL_QUESTIONNAIRE"
+        interview_stress_exp = "IN_PERSON"
 
 
 
@@ -252,7 +253,7 @@
 #       PHASED haplotypes provided?
 #       Choose from: PHASED/UNPHASED/NOT_AVAILABLE
 
-        haplotypes_available = "UNPHASED"
+        haplotypes_available = "NOT_AVAILABLE"
 
 
 
@@ -265,6 +266,11 @@
 
 
 
-version<-"8.1.1"
+version<-"8.1"
 subscript.dir<-paste(INDIR, "subscripts_v",version,"/", sep="")
-source(paste(subscript.dir, "SD_5HTTLPR_invoker_v8.1.1.r", sep=""))
+source(paste(subscript.dir, "SD_5HTTLPR_invoker_v8.1.r", sep=""))
+ 
+ 
+#child_mal_q_system="CTQ_5_SUBSCORE"
+ 
+#child_mal_q_system="CTQ_5_SUBSCORE"

@@ -26,44 +26,39 @@
 #cat /home/amyh/SD_5HTTLPR/rmeta_script.r | R --slave --args ---file /home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/female__age__birth_decade__add_5http__child_mal_exp__add_5http_x_child_mal_exp__null__null.csv ---effects random ---outcome DD_life ---term child_mal_exp ---study COGA_EU CHDS_EU DECC_EU ---label OR ---logscale TRUE ---groupname _testing_102814 ---stratum full ---sex "combined-sexes" ---condition DepDx_DSM4_ ---age All ---clip 0 3 ---axis 0 3 0.5
 
 
-### turning off command parsing block to allow Yinjiao to edit the above block and run this inside R using:
-###   source("/home/amyh/SD_5HTTLPR/rmeta_script.4.r")
-#####################################
-# Begin section for Yinjiao to edit #
-# alter to make plot of your choice #
-#####################################
+#############################
+# Begin section to edit     #
+# alter to make plot of     #
+# your choice from inside R #
+#############################
 
-lgscl<-TRUE
-effects<-"random"
-age<-"All"
-result_label<-"OR"
-left_clip<-0
-right_clip<-3
-left_tick<-0
-right_tick<-3
-intrvl<-0.5
-subgroupname<-"_Yinjiao_testing_121715"
-stratum<-"full"
-sample_sex<-"combined-sexes"
-cond<-"DepDx_DSM4_"
-outcome<-"DD_life"
-term<-"child_mal_exp"
-studylist<-c("COGA_EU","CHDS_EU","DECC_EU")
-setwd("YOURDIRECTORY")
-in.file.name<-"/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/female__age__birth_decade__add_5http__child_mal_exp__add_5http_x_child_mal_exp__null__null.csv"
+#lgscl<-TRUE
+#effects<-"random"
+#age<-"All"
+#result_label<-"OR"
+#left_clip<-0
+#right_clip<-3
+#left_tick<-0
+#right_tick<-3
+#intrvl<-0.5
+#subgroupname<-"_Yinjiao_testing_121715"
+#stratum<-"full"
+#sample_sex<-"combined-sexes"
+#cond<-"DepDx_DSM4_"
+#outcome<-"DD_life"
+#term<-"child_mal_exp"
+#studylist<-c("COGA_EU","CHDS_EU","DECC_EU")
+#setwd("YOURDIRECTORY")
+#in.file.name<-"/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/female__age__birth_decade__add_5http__child_mal_exp__add_5http_x_child_mal_exp__null__null.csv"
 
 ##############################################
 # end section to edit to alter function call #
 ##############################################
 
 
-
 library(rmeta)
 datestamp<-Sys.Date()
 
-### turning off command parsing block to allow Yinjiao to edit the above block and run this inside R using:
-###   source("/home/amyh/SD_5HTTLPR/rmeta_script.4.r")
-if(0) {
 args <- commandArgs()
 
 #[1] "/usr/bin/R"   	      "--slave"
@@ -174,7 +169,7 @@ for (i in 4:length(args)) {
       }
    }
 }
-} ######### end turned off block
+
 
 
 out.file.het="heterogeneities_by_test.txt"

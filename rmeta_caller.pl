@@ -1,6 +1,6 @@
 #*****************************************************************************
 #* 5-HTTLPR GxE analysis regession results files assembler
-#* version 1
+#* version 16
 #*****************************************************************************
 #*
 #* created by Amy Horton and Rob Culverhouse
@@ -19,19 +19,16 @@ use Storable qw(dclone);
 use List::MoreUtils qw(first_index); 
 
 my $wd=$ARGV[0];
-#my $groupname="_all_studies";
 my $groupname=$wd;
 $groupname=~s/\/$//;
 $groupname=basename($groupname);
-#$groupname="_".$groupname;
-#print "Groupname is: ",$groupname,"\n";
+
 my @SITES;
 my $arrayref;
 my $hashref;
-my $N_filter=50; ##50/100
-#my $beta_filter=20; ##10/20
-#my $beta_filter=9.9034875; ##10/20
-my $beta_filter=20000;
+my $N_filter=50; ##tried 50/100
+my $beta_filter=9.9034875;
+## my $beta_filter=20000; ## would be equivalent for logistic regression
 my $beta_filter2;
 my $min_beta_filter2;
 
@@ -48,7 +45,6 @@ if (scalar @ARGV > 1) {
 }
 unless ($wd){
     $wd="/home/amyh/SD_5HTTLPR/Returned/";
-#    $wd="/Users/achorton/SD_5HTTLPR/SD_5HTTLPR_beta7/";
 }
 my $fail_file="${wd}meta_raw_files/failed_rmeta_script_calls.txt";
 if (-d "${wd}meta_raw_files"){
@@ -196,9 +192,6 @@ for my $file (my @filenames = glob("${wd}meta_raw_files/*__*__*__*__*__*__*__*.c
 
 my %list2 = %{ dclone(\%list) };
 
-#my @tmp1=keys $tier_1{"/home/amyh/SD_5HTTLPR/Returned/AE_studies/meta_raw_files/female__age__add_5http__child_mal_exp__add_5http_x_child_mal_exp__null__null__null.csv"}{"DepDx_ANY_"}{"All"}{"DD_life"};
-
-
 print scalar keys %tier_1,"\n";
 print scalar keys %tier_1b,"\n";
 print scalar keys %tier_2,"\n";
@@ -209,7 +202,6 @@ print scalar keys %tier_6,"\n";
 
 open(FAIL_FILE,">",$fail_file) || die "Cannot open failed rmeta_script call file:$!\n";
 
-#if(0) {
 for my $file (keys %tier_1) {
     for my $cond (keys $tier_1{$file} ) {
 	for my $age (keys $tier_1{$file}{$cond}) {  
@@ -512,7 +504,7 @@ for my $file (keys %tier_1) {
 	}
     }
 }
-print "break\n";
+
 for my $file (keys %tier_1b) {
     for my $cond (keys $tier_1b{$file} ) {
 	for my $age (keys $tier_1b{$file}{$cond}) {  
@@ -2024,7 +2016,7 @@ for my $file (keys %tier_5) {
 	}
     }
 }
-#}########
+
 for my $file (keys %tier_6) {
     for my $cond (keys $tier_6{$file} ) {
 	for my $age (keys $tier_6{$file}{$cond}) {  
@@ -2069,69 +2061,10 @@ for my $file (keys %tier_6) {
 				$max_len=scalar keys $studynamelist{$stratum2}{$study2};
 			    }
 			}
-
-
-
-
 			for my $parameter2 (keys $list{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
-
-			    if ($parameter2 eq "array_ref" && 
-				$stratum2 eq "full" && 
-				$file eq "/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/birth_decade__L_Arec_rs25531__stress_combined_exp_messy_5yr_curr__L_Arec_rs25531_x_stress_combined_exp_messy_5yr_curr__null__null__null__null.csv" && 
-				$cond eq "DepQ_ANY_" && 
-				$age eq "All" && 
-				$outcome eq "QDz_5yr" && 
-				$sample_sex eq "males-only") {
-				print "break\n";
-			    }
-			    if ($parameter2 eq "birth_decade" && 
-				$stratum2 == 0 && 
-				$file eq "/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/female__birth_decade__life_stress_quant_5yr_life_z__null__null__null__null__null.csv" && 
-				$cond eq "DepDx_ANY_" && 
-				$age eq "YA" && 
-				$outcome eq "DD_life_5yr" && 
-				$sample_sex eq "females-only") {
-				print "break\n";
-			    }
-			    if ($parameter2 eq "birth_decade" &&
-				$stratum2 == 1 &&
-				$file eq "/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/female__birth_decade__life_stress_exp_5yr_curr__null__null__null__null__null.csv" &&
-				$cond eq "DepDx_ANY_" &&
-				$age eq "YA" &&
-				$outcome eq "DD_curr_5yr" &&
-				$sample_sex eq "combined-sexes") {
-				print "break\n";
-			    }
-
-#parameter2 array_ref
-#stratum2 full
-			    if ($file eq "/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/birth_decade__L_Arec_rs25531__stress_combined_exp_messy_5yr_curr__L_Arec_rs25531_x_stress_combined_exp_messy_5yr_curr__null__null__null__null.csv" &&
-				$cond eq "DepQ_ANY_" &&
-				$age eq "All" &&
-				$outcome eq "QDz_5yr" &&
-				$sample_sex eq "males-only") {
-				print "break\n";
-			    }
-
-			    print "parameter2 ",$parameter2,"\n";
-			    print "stratum2 ",$stratum2,"\n";
-#			    print "study2",$study2,"\n";
-			    print "file ",$file,"\n";
-			    print "cond ",$cond,"\n";
-			    print "age ",$age,"\n";
-			    print "outcome ",$outcome,"\n";
-			    print "sample_sex ",$sample_sex,"\n";
-#			    print "scalar ",scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} },"\n";
-			    print "max_len2 ",$max_len2,"\n";
-			    print "max_len ",$max_len,"\n";
-			    if($parameter2 ne "array_ref" && $parameter2 ne "Intercept" &&
-			       $max_len > 1 &&
-			       exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2} &&
-			       exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} ) {
-				my $tmp24 = scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} } < 1 ? 0 : scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} };
-				if($tmp24 > $max_len2) {
-				    $max_len2=$tmp24 ;
-				}
+			    if($parameter2 ne "array_ref" &&
+			       scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} } > $max_len2) {
+				$max_len2=scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} } ;
 			    }
 			}
 
@@ -2144,14 +2077,8 @@ for my $file (keys %tier_6) {
 
 			for my $parameter (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
 			    unless($parameter eq "array_ref" || $parameter eq "Intercept") {
-				if($max_len > 1 && 
-				   exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum2} &&
-				   exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum2}{"array_ref"} &&
-				   scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum2}{"array_ref"} } == $max_len2) {
+				if(scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum2}{"array_ref"} } == $max_len2) {
 				    my @tmp=@{ dclone(\@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum2}{"array_ref"} }) };
-				    $full_list2{$stratum2}=\@tmp; 
-				} elsif ($max_len <= 1) {
-				    my @tmp = ();
 				    $full_list2{$stratum2}=\@tmp; 
 				}
 			    }
@@ -2161,35 +2088,13 @@ for my $file (keys %tier_6) {
 		    for my $parameter (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
 			unless($parameter eq "array_ref" || $parameter eq "Intercept") {
 			    for my $stratum (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}) {
-				if (exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum} && 
-				    exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"}) {
-				    for (my $i=0;$i<scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$i++) {
-					if($removelistmaster{$stratum}{${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} }[$i]} eq "TO_BE_REMOVED") {
-					    $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"}[$i]="TO_BE_REMOVED";
-					} 
-				    } 
-				} else {
-				    my @arr=( "TO_BE_REMOVED" );
-				    $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} =\@arr;
+				for (my $i=0;$i<scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$i++) {
+				    if($removelistmaster{$stratum}{${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} }[$i]} eq "TO_BE_REMOVED") {
+					$list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"}[$i]="TO_BE_REMOVED";
+				    }
 				}
 			    }
 			}
-		    }
-
-		    if ($file eq '/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/female__birth_decade__stress_combined_exp_clean_5yr_life__null__null__null__null__null.csv' &&
-			$cond eq 'DepDx_ANY_' &&
-			$age eq 'All' &&
-			$outcome eq 'DD_life_5yr' &&
-			$sample_sex eq 'males-only') {
-			print "break\n";
-		    }
-
-		    if ($file eq "/home/amyh/SD_5HTTLPR/Returned/EU_studies_gt49_le20/meta_raw_files/birth_decade__L_Arec_rs25531__stress_combined_exp_messy_5yr_curr__L_Arec_rs25531_x_stress_combined_exp_messy_5yr_curr__null__null__null__null.csv" &&
-			$cond eq "DepQ_ANY_" &&
-			$age eq "All" &&
-			$outcome eq "QDz_5yr" &&
-			$sample_sex eq "males-only") {
-			print "break\n";
 		    }
 
 		    for my $stratum2 (keys %removelistmaster) {
@@ -2199,182 +2104,178 @@ for my $file (keys %tier_6) {
 			    my $study2=$full_list[$k];
 			    my $dist_end=$#full_list-$k;
 			    for my $parameter2 (keys $list{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
-#				my %tmp23 = map { $_ => 1 }  keys $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2};
 				unless($parameter2 eq "array_ref" || $parameter2 eq "Intercept") {
-				    if (exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2} &&
-					exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"}) {
-					my @idx_list;
-					my $arraylen=scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }) < 1 ? 0 : scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} });
-					my @study3_array;
-					if (exists $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"}) {
-					    @study3_array =sort { $a cmp $b } @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"} };
+				    my @idx_list;
+				    my $arraylen=scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} });
+				    my @study3_array;
+				    if (exists $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"}) {
+					@study3_array =sort { $a cmp $b } @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"} };
+				    } else {
+					@study3_array =sort { $a cmp $b } @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} };
+				    }
+
+				    for my $name (@study3_array){
+					push @idx_list, first_index { /${name}/ } @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} };
+				    }
+
+
+				    my @study3_array2;
+				    my @study3_array3;
+
+				    my @study3_N;
+				    my @study3_se;
+				    my @study3_n_study;
+				    my @study3_model;
+				    my @study3_beta;
+
+				    my @study4_array2;
+				    my @study4_array3;
+
+				    my @study4_N;
+				    my @study4_se;
+				    my @study4_n_study;
+				    my @study4_model;
+				    my @study4_beta;
+
+				    for my $idx (@idx_list) {
+					push @study3_array2,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
+
+					push @study3_array3,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
+
+					push @study3_N,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }[$idx];
+					push @study3_se,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }[$idx];
+					push @study3_n_study,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }[$idx];
+					push @study3_model,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }[$idx];
+					push @study3_beta,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }[$idx];
+
+
+					push @study4_array2,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
+
+					push @study4_array3,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
+
+					push @study4_N,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }[$idx];
+					push @study4_se,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }[$idx];
+					push @study4_n_study,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }[$idx];
+					push @study4_model,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }[$idx];
+					push @study4_beta,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }[$idx];
+				    }
+
+				    if((first_index { /${study2}/ } @study3_array) == -1) {
+					if ($dist_end >= scalar @study3_array) {
+					    unshift @study3_array,"TO_BE_REMOVED";
+					    unshift @study3_array3,$study2;
+					    unshift @study3_N,"0";
+					    unshift @study3_se,"NA";
+					    unshift @study3_n_study,"0";
+					    unshift @study3_model,"NA";
+					    unshift @study3_beta,"NA";
+
+					    unshift @study4_array2,"TO_BE_REMOVED";
+					    unshift @study4_array3,$study2;
+					    unshift @study4_N,"0";
+					    unshift @study4_se,"NA";
+					    unshift @study4_n_study,"0";
+					    unshift @study4_model,"NA";
+					    unshift @study4_beta,"NA";
 					} else {
-					    @study3_array =sort { $a cmp $b } @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} };
-					}
-					
-					for my $name (@study3_array){
-					    push @idx_list, first_index { /${name}/ } @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} };
-					}
+					    my @tmp_array;
+					    my @tmp_array3;
+					    my @tmp_N;
+					    my @tmp_se;
+					    my @tmp_n_study;
+					    my @tmp_model;
+					    my @tmp_beta;
 
+					    my @tmp4_array2;
+					    my @tmp4_array3;
+					    my @tmp4_N;
+					    my @tmp4_se;
+					    my @tmp4_n_study;
+					    my @tmp4_model;
+					    my @tmp4_beta;
+					    for (my $j=0; $j<($arraylen - $dist_end); $j++) {
+						push @tmp_array,$study3_array[$j];
+						push @tmp_array3,$study3_array3[$j];
+						push @tmp_N,$study3_N[$j];
+						push @tmp_se,$study3_se[$j];
+						push @tmp_n_study,$study3_n_study[$j];
+						push @tmp_model,$study3_model[$j];
+						push @tmp_beta,$study3_beta[$j];
 
-					my @study3_array2;
-					my @study3_array3;
-
-					my @study3_N;
-					my @study3_se;
-					my @study3_n_study;
-					my @study3_model;
-					my @study3_beta;
-
-					my @study4_array2;
-					my @study4_array3;
-
-					my @study4_N;
-					my @study4_se;
-					my @study4_n_study;
-					my @study4_model;
-					my @study4_beta;
-
-					for my $idx (@idx_list) {
-					    push @study3_array2,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
-
-					    push @study3_array3,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
-
-					    push @study3_N,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }[$idx];
-					    push @study3_se,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }[$idx];
-					    push @study3_n_study,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }[$idx];
-					    push @study3_model,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }[$idx];
-					    push @study3_beta,${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }[$idx];
-
-
-					    push @study4_array2,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
-
-					    push @study4_array3,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }[$idx];
-
-					    push @study4_N,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }[$idx];
-					    push @study4_se,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }[$idx];
-					    push @study4_n_study,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }[$idx];
-					    push @study4_model,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }[$idx];
-					    push @study4_beta,${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }[$idx];
-					}
-
-					if((first_index { /${study2}/ } @study3_array) == -1) {
-					    if ($dist_end >= scalar @study3_array) {
-						unshift @study3_array,"TO_BE_REMOVED";
-						unshift @study3_array3,$study2;
-						unshift @study3_N,"0";
-						unshift @study3_se,"NA";
-						unshift @study3_n_study,"0";
-						unshift @study3_model,"NA";
-						unshift @study3_beta,"NA";
-
-						unshift @study4_array2,"TO_BE_REMOVED";
-						unshift @study4_array3,$study2;
-						unshift @study4_N,"0";
-						unshift @study4_se,"NA";
-						unshift @study4_n_study,"0";
-						unshift @study4_model,"NA";
-						unshift @study4_beta,"NA";
-					    } else {
-						my @tmp_array;
-						my @tmp_array3;
-						my @tmp_N;
-						my @tmp_se;
-						my @tmp_n_study;
-						my @tmp_model;
-						my @tmp_beta;
-
-						my @tmp4_array2;
-						my @tmp4_array3;
-						my @tmp4_N;
-						my @tmp4_se;
-						my @tmp4_n_study;
-						my @tmp4_model;
-						my @tmp4_beta;
-						for (my $j=0; $j<($arraylen - $dist_end); $j++) {
-						    push @tmp_array,$study3_array[$j];
-						    push @tmp_array3,$study3_array3[$j];
-						    push @tmp_N,$study3_N[$j];
-						    push @tmp_se,$study3_se[$j];
-						    push @tmp_n_study,$study3_n_study[$j];
-						    push @tmp_model,$study3_model[$j];
-						    push @tmp_beta,$study3_beta[$j];
-
-						    push @tmp4_array2,$study4_array2[$j];
-						    push @tmp4_array3,$study4_array3[$j];
-						    push @tmp4_N,$study4_N[$j];
-						    push @tmp4_se,$study4_se[$j];
-						    push @tmp4_n_study,$study4_n_study[$j];
-						    push @tmp4_model,$study4_model[$j];
-						    push @tmp4_beta,$study4_beta[$j];
-						}
-						push @tmp_array,"TO_BE_REMOVED";
-						push @tmp_array3,$study2;
-						push @tmp_N,"0";
-						push @tmp_se,"NA";
-						push @tmp_n_study,"0";
-						push @tmp_model,"NA";
-						push @tmp_beta,"NA";
-
-						push @tmp4_array2,"TO_BE_REMOVED";
-						push @tmp4_array3,$study2;
-						push @tmp4_N,"0";
-						push @tmp4_se,"NA";
-						push @tmp4_n_study,"0";
-						push @tmp4_model,"NA";
-						push @tmp4_beta,"NA";
-						for (my $j=($arraylen - $dist_end); $j < $arraylen; $j++) {
-						    push @tmp_array,$study3_array[$j];
-						    push @tmp_array3,$study3_array3[$j];
-						    push @tmp_N,$study3_N[$j];
-						    push @tmp_se,$study3_se[$j];
-						    push @tmp_n_study,$study3_n_study[$j];
-						    push @tmp_model,$study3_model[$j];
-						    push @tmp_beta,$study3_beta[$j];
-
-						    push @tmp4_array2,$study4_array2[$j];
-						    push @tmp4_array3,$study4_array3[$j];
-						    push @tmp4_N,$study4_N[$j];
-						    push @tmp4_se,$study4_se[$j];
-						    push @tmp4_n_study,$study4_n_study[$j];
-						    push @tmp4_model,$study4_model[$j];
-						    push @tmp4_beta,$study4_beta[$j];
-						}
-						@study3_array=@tmp_array;
-						@study3_array3=@tmp_array3;
-						@study3_N=@tmp_N;
-						@study3_se=@tmp_se;
-						@study3_n_study=@tmp_n_study;
-						@study3_model=@tmp_model;
-						@study3_beta=@tmp_beta;
-
-						@study4_array2=@tmp4_array2;
-						@study4_array3=@tmp4_array3;
-						@study4_N=@tmp4_N;
-						@study4_se=@tmp4_se;
-						@study4_n_study=@tmp4_n_study;
-						@study4_model=@tmp4_model;
-						@study4_beta=@tmp4_beta;
+						push @tmp4_array2,$study4_array2[$j];
+						push @tmp4_array3,$study4_array3[$j];
+						push @tmp4_N,$study4_N[$j];
+						push @tmp4_se,$study4_se[$j];
+						push @tmp4_n_study,$study4_n_study[$j];
+						push @tmp4_model,$study4_model[$j];
+						push @tmp4_beta,$study4_beta[$j];
 					    }
+					    push @tmp_array,"TO_BE_REMOVED";
+					    push @tmp_array3,$study2;
+					    push @tmp_N,"0";
+					    push @tmp_se,"NA";
+					    push @tmp_n_study,"0";
+					    push @tmp_model,"NA";
+					    push @tmp_beta,"NA";
+
+					    push @tmp4_array2,"TO_BE_REMOVED";
+					    push @tmp4_array3,$study2;
+					    push @tmp4_N,"0";
+					    push @tmp4_se,"NA";
+					    push @tmp4_n_study,"0";
+					    push @tmp4_model,"NA";
+					    push @tmp4_beta,"NA";
+					    for (my $j=($arraylen - $dist_end); $j < $arraylen; $j++) {
+						push @tmp_array,$study3_array[$j];
+						push @tmp_array3,$study3_array3[$j];
+						push @tmp_N,$study3_N[$j];
+						push @tmp_se,$study3_se[$j];
+						push @tmp_n_study,$study3_n_study[$j];
+						push @tmp_model,$study3_model[$j];
+						push @tmp_beta,$study3_beta[$j];
+
+						push @tmp4_array2,$study4_array2[$j];
+						push @tmp4_array3,$study4_array3[$j];
+						push @tmp4_N,$study4_N[$j];
+						push @tmp4_se,$study4_se[$j];
+						push @tmp4_n_study,$study4_n_study[$j];
+						push @tmp4_model,$study4_model[$j];
+						push @tmp4_beta,$study4_beta[$j];
+					    }
+					    @study3_array=@tmp_array;
+					    @study3_array3=@tmp_array3;
+					    @study3_N=@tmp_N;
+					    @study3_se=@tmp_se;
+					    @study3_n_study=@tmp_n_study;
+					    @study3_model=@tmp_model;
+					    @study3_beta=@tmp_beta;
+
+					    @study4_array2=@tmp4_array2;
+					    @study4_array3=@tmp4_array3;
+					    @study4_N=@tmp4_N;
+					    @study4_se=@tmp4_se;
+					    @study4_n_study=@tmp4_n_study;
+					    @study4_model=@tmp4_model;
+					    @study4_beta=@tmp4_beta;
 					}
-					@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }=@study3_array;
-					$list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"}=\@study3_array3;
-					@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }=@study3_N;
-					@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }=@study3_se;
-					@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }=@study3_n_study;
-					@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }=@study3_model;
-					@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }=@study3_beta;
-					
+				    }
+				    @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }=@study3_array;
+				    $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"}=\@study3_array3;
+				    @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }=@study3_N;
+				    @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }=@study3_se;
+				    @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }=@study3_n_study;
+				    @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }=@study3_model;
+				    @{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }=@study3_beta;
+				    
 
-					@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }=@study4_array2;
-					$list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"}=\@study4_array3;
-					@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }=@study4_N;
-					@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }=@study4_se;
-					@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }=@study4_n_study;
-					@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }=@study4_model;
-					@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }=@study4_beta;
-
-				    }				    
+				    @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref"} }=@study4_array2;
+				    $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"array_ref3"}=\@study4_array3;
+				    @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"N_ref"} }=@study4_N;
+				    @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"se_ref"} }=@study4_se;
+				    @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"n_study_ref"} }=@study4_n_study;
+				    @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"model_ref"} }=@study4_model;
+				    @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum2}{"beta_ref"} }=@study4_beta;
+				    
 				}
 			    }
 			}
@@ -2383,14 +2284,12 @@ for my $file (keys %tier_6) {
 		    for my $parameter (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
 			unless($parameter eq "array_ref" || $parameter eq "Intercept") {
 			    for my $stratum (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}) {
-				if (exists $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"}) {
-				    for (my $i=0;$i<scalar(@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$i++) {
-					if ((${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"N_ref"} }[$i] <= $N_filter) || 
-					    (${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"beta_ref"} }[$i]) > $beta_filter2 || 
-					    (${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"beta_ref"} }[$i]) < $min_beta_filter2) {
-					    for my $parameter2 (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
-						$list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum}{"array_ref"}[$i]="TO_BE_REMOVED";
-					    }
+				for (my $i=0;$i<scalar(@{ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$i++) {
+				    if ((${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"N_ref"} }[$i] <= $N_filter) || 
+					(${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"beta_ref"} }[$i]) > $beta_filter2 || 
+					(${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"beta_ref"} }[$i]) < $min_beta_filter2) {
+					for my $parameter2 (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
+					    $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum}{"array_ref"}[$i]="TO_BE_REMOVED";
 					}
 				    }
 				}
@@ -2401,14 +2300,12 @@ for my $file (keys %tier_6) {
 		    for my $parameter (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
 			unless($parameter eq "array_ref" || $parameter eq "Intercept") {
 			    for my $stratum (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}) {
-				if ( exists $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"}) {
-				    for (my $i=0;$i<scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$i++) {
-					if (${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} }[$i] eq "TO_BE_REMOVED") {
-					    for my $parameter2 (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
-						for (my $j=0;$j<scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$j++) {
-						    if(${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum}{"array_ref3"} }[$j] eq ${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref3"} }[$i]) {
-							$list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum}{"array_ref"}[$j]="TO_BE_REMOVED";
-						    }
+				for (my $i=0;$i<scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$i++) {
+				    if (${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} }[$i] eq "TO_BE_REMOVED") {
+					for my $parameter2 (keys $tier_6{$file}{$cond}{$age}{$outcome}{$sample_sex}) {
+					    for (my $j=0;$j<scalar(@{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} });$j++) {
+						if(${ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum}{"array_ref3"} }[$j] eq ${ $list2{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref3"} }[$i]) {
+						    $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter2}{$stratum}{"array_ref"}[$j]="TO_BE_REMOVED";
 						}
 					    }
 					}
@@ -2464,7 +2361,6 @@ for my $file (keys %tier_1) {
     $studylist=$studylist." ".$namestudy;
 }
 }
-				print "break\n";
 if ((scalar (split " ",$studylist) < 2) || (my $rc=system("cat /home/amyh/SD_5HTTLPR/rmeta_script.3.r | R --slave --args ---file $file ---effects random ---outcome $outcome ---term $parameter ---study $studylist ---label $result_label ---logscale $lgscl ---groupname $groupname ---stratum $stratum ---age $age ---sex $sample_sex ---condition $cond ---clip $left_clip_for_plot $right_clip_for_plot ---axis $left_end_of_x_axis $right_end_of_x_axis $tick_interval") )) {
 #if ((scalar @{ $list{$file}{$cond}{$age}{$outcome}{$sample_sex}{$parameter}{$stratum}{"array_ref"} } < 2) || (my $rc=system("cat /home/amyh/SD_5HTTLPR/rmeta_script.3.r | R --slave --args ---file $file ---effects random ---outcome $outcome ---term $parameter ---study $studylist ---label $result_label ---logscale $lgscl ---groupname $groupname ---stratum $stratum ---age $age ---sex $sample_sex ---condition $cond ---clip $left_clip_for_plot $right_clip_for_plot ---axis $left_end_of_x_axis $right_end_of_x_axis $tick_interval") )) {
 #    print FAIL_FILE "$file $cond $outcome $sample_sex $parameter $stratum $studylist $result_label $lgscl $groupname $age\n";

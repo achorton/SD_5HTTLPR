@@ -270,7 +270,3 @@ version<-"8.1"
 subscript.dir<-paste(INDIR, "subscripts_v",version,"/", sep="")
 source(paste(subscript.dir, "SD_5HTTLPR_invoker_v8.1.r", sep=""))
  
- 
-#child_mal_q_system="CTQ_5_SUBSCORE"
- 
-#child_mal_q_system="CTQ_5_SUBSCORE"
