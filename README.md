@@ -1,5 +1,5 @@
 # SD_5HTTLPR
-This GITHUB repository contains one directory and 6 additional files related to the publication:
+This GITHUB repository contains one directory and six additional files related to the publication:
 
 **“Collaborative meta-analysis finds no evidence of a strong interaction between stress and 5-HTTLPR genotype contributing to the development of depression”**
 
